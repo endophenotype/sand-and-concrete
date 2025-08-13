@@ -17,8 +17,6 @@ interface CalculatorModalProps {
 
 const Calculator = ({ isOpen, onClose }: CalculatorModalProps) => {
   const toastFunction = useToast().toast;
-  console.log('Тип onClose:', typeof onClose);
-  console.log('Значение onClose:', onClose);
   const [formData, setFormData] = useState({
     material: '',
     volume: '',
@@ -85,25 +83,27 @@ const Calculator = ({ isOpen, onClose }: CalculatorModalProps) => {
         body: JSON.stringify(formData),
       });
 
-      // console.log('Response status:', response.status);
-      // console.log('Response OK:', response.ok);
+      console.log('Response status:', response.status);
+      console.log('Response OK:', response.ok);
       if (!response.ok) {
         const errorText = await response.text();
         console.error('Server error response:', errorText);
         throw new Error(`Failed to send request: ${response.status} ${response.statusText} - ${errorText}`);
       }
       
-      toastFunction({
-        title: "Заявка отправлена!",
-        description: "Мы свяжемся с вами в течение 15 минут для уточнения деталей заказа.",
-      });
-      // onClose(); // Временно закомментировано для отладки
-      // setFormData({ // Временно закомментировано для отладки
-      //   material: '',
-      //   volume: '',
-      //   address: '',
-      //   phone: ''
+      // toastFunction({ // Временно закомментировано для отладки
+      //   title: "Заявка отправлена!",
+      //   description: "Мы свяжемся с вами в течение 15 минут для уточнения деталей заказа.",
       // });
+      if (onClose && typeof onClose === 'function') {
+        onClose();
+      }
+      setFormData({
+        material: '',
+        volume: '',
+        address: '',
+        phone: ''
+      });
     } catch (error) {
       console.error('Error submitting form:', error);
       toastFunction({
