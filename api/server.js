@@ -5,14 +5,12 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-dotenv.config({ path: path.resolve(__dirname, '../.env') });
-console.log('EMAIL_USER:', process.env.EMAIL_USER);
-console.log('EMAIL_PASS:', process.env.EMAIL_PASS ? '********' : 'Not Loaded');
+dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
-import express from 'express';
-import nodemailer from 'nodemailer';
-import cors from 'cors';
-import bodyParser from 'body-parser';
+import express from "express";
+import nodemailer from "nodemailer";
+import cors from "cors";
+import bodyParser from "body-parser";
 
 const app = express();
 const port = 3001;
@@ -21,15 +19,14 @@ app.use(cors());
 app.use(bodyParser.json());
 
 const transporter = nodemailer.createTransport({
-  service: 'yandex',
+  service: "yandex",
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
 });
 
-app.post('/api/send-call-request', (req, res) => {
-  console.log('Received call request:', req.body);
+app.post("/api/send-call-request", (req, res) => {
   const { name, phone, message } = req.body;
 
   const mailOptions = {
@@ -46,19 +43,26 @@ app.post('/api/send-call-request', (req, res) => {
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      console.error('Error sending email (send-call-request):', error);
+      console.error("Error sending email (send-call-request):", error);
       if (error.response) {
-        console.error('Nodemailer response (send-call-request):', error.response);
+        console.error(
+          "Nodemailer response (send-call-request):",
+          error.response
+        );
       }
-      return res.status(500).send({ message: 'Error sending email', error: error.message, details: error.response });
+      return res.status(500).send({
+        message: "Error sending email",
+        error: error.message,
+        details: error.response,
+      });
     }
-    console.log('Email sent:', info.response);
-    res.status(200).send({ message: 'Email sent successfully' });
+    console.log("Email sent:", info.response);
+    res.status(200).send({ message: "Email sent successfully" });
   });
 });
 
-app.post('/api/send-calculator-request', (req, res) => {
-  console.log('Received calculator request:', req.body);
+app.post("/api/send-calculator-request", (req, res) => {
+  console.log("Received calculator request:", req.body);
   const { phone, material, volume, address } = req.body;
 
   const mailOptions = {
@@ -76,15 +80,26 @@ app.post('/api/send-calculator-request', (req, res) => {
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      console.error('Error sending email (send-calculator-request):', error);
+      console.error("Error sending email (send-calculator-request):", error);
       if (error.response) {
-        console.error('Nodemailer response (send-calculator-request):', error.response);
+        console.error(
+          "Nodemailer response (send-calculator-request):",
+          error.response
+        );
       }
-      return res.status(500).send({ message: 'Error sending email', error: error.message, details: error.response });
+      return res
+        .status(500)
+        .send({
+          message: "Error sending email",
+          error: error.message,
+          details: error.response,
+        });
     }
-    console.log('Email sent:', info.response);
-    res.status(200).send({ message: 'Email sent successfully' });
+    console.log("Email sent:", info.response);
+    res.status(200).send({ message: "Email sent successfully" });
   });
 });
 
-export default app;
+app.listen(port, () => {
+  console.log(`Server listening at http://localhost:${port}`);
+});
