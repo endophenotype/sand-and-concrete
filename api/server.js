@@ -6,8 +6,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
-console.log('EMAIL_USER:', process.env.EMAIL_USER ? 'Loaded' : 'Not Loaded');
-console.log('EMAIL_PASS:', process.env.EMAIL_PASS ? 'Loaded' : 'Not Loaded');
+console.log('EMAIL_USER:', process.env.EMAIL_USER);
+console.log('EMAIL_PASS:', process.env.EMAIL_PASS ? '********' : 'Not Loaded');
 
 import express from 'express';
 import nodemailer from 'nodemailer';
@@ -30,7 +30,7 @@ const transporter = nodemailer.createTransport({
 
 app.post('/api/send-call-request', (req, res) => {
   console.log('Received call request:', req.body);
-  const { name, phone, preferredTime, question } = req.body;
+  const { name, phone, message } = req.body;
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
@@ -40,18 +40,17 @@ app.post('/api/send-call-request', (req, res) => {
       <h2>Новая заявка на обратный звонок</h2>
       <p><strong>Имя:</strong> ${name}</p>
       <p><strong>Телефон:</strong> ${phone}</p>
-      <p><strong>Удобное время:</strong> ${preferredTime || "не указано"}</p>
-      <p><strong>Вопрос:</strong> ${question || "не указан"}</p>
+      <p><strong>Сообщение:</strong> ${message || "не указан"}</p>
     `,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      console.error('Error sending email:', error);
+      console.error('Error sending email (send-call-request):', error);
       if (error.response) {
-        console.error('Nodemailer response:', error.response);
+        console.error('Nodemailer response (send-call-request):', error.response);
       }
-      return res.status(500).send({ message: 'Error sending email', error: error.message });
+      return res.status(500).send({ message: 'Error sending email', error: error.message, details: error.response });
     }
     console.log('Email sent:', info.response);
     res.status(200).send({ message: 'Email sent successfully' });
@@ -77,11 +76,11 @@ app.post('/api/send-calculator-request', (req, res) => {
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      console.error('Error sending email:', error);
+      console.error('Error sending email (send-calculator-request):', error);
       if (error.response) {
-        console.error('Nodemailer response:', error.response);
+        console.error('Nodemailer response (send-calculator-request):', error.response);
       }
-      return res.status(500).send({ message: 'Error sending email', error: error.message });
+      return res.status(500).send({ message: 'Error sending email', error: error.message, details: error.response });
     }
     console.log('Email sent:', info.response);
     res.status(200).send({ message: 'Email sent successfully' });
