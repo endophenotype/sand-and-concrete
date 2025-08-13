@@ -1,0 +1,25 @@
+// ScrollToTop component styles
+.scroll-to-top {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 50;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--primary-green);
+  color: var(--white);
+  box-shadow: var(--shadow-medium);
+  transition: all var(--transition-normal);
+  animation: fadeIn 0.3s ease-out;
+  
+  &:hover {
+    background: rgba(168, 213, 186, 0.9);
+    box-shadow: var(--shadow-heavy);
+  }
+  
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
