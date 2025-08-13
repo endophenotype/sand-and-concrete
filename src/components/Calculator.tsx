@@ -17,6 +17,8 @@ interface CalculatorModalProps {
 
 const Calculator = ({ isOpen, onClose }: CalculatorModalProps) => {
   const { toast } = useToast();
+  console.log('Тип toast:', typeof toast);
+  console.log('Значение toast:', toast);
   const [formData, setFormData] = useState({
     material: '',
     volume: '',
