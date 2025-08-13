@@ -83,21 +83,25 @@ const Calculator = ({ isOpen, onClose }: CalculatorModalProps) => {
         body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
-        toastFunction({
-          title: "Заявка отправлена!",
-          description: "Мы свяжемся с вами в течение 15 минут для уточнения деталей заказа.",
-        });
-        onClose();
-        setFormData({
-          material: '',
-          volume: '',
-          address: '',
-          phone: ''
-        });
-      } else {
-        throw new Error('Failed to send request');
+      console.log('Response status:', response.status);
+      console.log('Response OK:', response.ok);
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Server error response:', errorText);
+        throw new Error(`Failed to send request: ${response.status} ${response.statusText} - ${errorText}`);
       }
+      
+      toastFunction({
+        title: "Заявка отправлена!",
+        description: "Мы свяжемся с вами в течение 15 минут для уточнения деталей заказа.",
+      });
+      onClose();
+      setFormData({
+        material: '',
+        volume: '',
+        address: '',
+        phone: ''
+      });
     } catch (error) {
       console.error('Error submitting form:', error);
       toastFunction({
