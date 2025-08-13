@@ -16,38 +16,47 @@ interface CalculatorModalProps {
 }
 
 const Calculator = ({ isOpen, onClose }: CalculatorModalProps) => {
-  const toastFunction = useToast().toast;
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
-    material: '',
-    volume: '',
-    address: '',
-    phone: ''
+    material: "",
+    volume: "",
+    address: "",
+    phone: "",
   });
 
   const materials = [
-    { value: 'sand', label: 'Песок', price: 850 },
-    { value: 'marble', label: 'Мраморная крошка', price: 1250 },
-    { value: 'gravel', label: 'Гравий', price: 600 },
-    { value: 'crushed-stone', label: 'Щебень', price: 1250 },
-    { value: 'expanded-clay', label: 'Керамзит', price: 600 },
-    { value: 'soil', label: 'Грунт', price: 850 }
+    { value: "sand", label: "Песок", price: 850 },
+    { value: "marble", label: "Мраморная крошка", price: 1250 },
+    { value: "gravel", label: "Гравий", price: 600 },
+    { value: "crushed-stone", label: "Щебень", price: 1250 },
+    { value: "expanded-clay", label: "Керамзит", price: 600 },
+    { value: "soil", label: "Грунт", price: 850 },
   ];
 
-  const selectedMaterial = materials.find(m => m.value === formData.material);
-  const materialCost = selectedMaterial && formData.volume ? 
-    selectedMaterial.price * parseFloat(formData.volume) : 0;
-  const deliveryCostDisplay = "Рассчитаем стоимость доставки и сообщим вам по телефону";
-  const totalCostDisplay = materialCost.toLocaleString() + " ₽ + стоимость доставки";
+  const selectedMaterial = materials.find((m) => m.value === formData.material);
+  const materialCost =
+    selectedMaterial && formData.volume
+      ? selectedMaterial.price * parseFloat(formData.volume)
+      : 0;
+  const deliveryCostDisplay =
+    "Рассчитаем стоимость доставки и сообщим вам по телефону";
+  const totalCostDisplay =
+    materialCost.toLocaleString() + " ₽ + стоимость доставки";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Validate required fields
-    if (!formData.material || !formData.volume || !formData.address || !formData.phone) {
-      toastFunction({
+    if (
+      !formData.material ||
+      !formData.volume ||
+      !formData.address ||
+      !formData.phone
+    ) {
+      toast({
         title: "Ошибка",
         description: "Пожалуйста, заполните все обязательные поля",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
@@ -55,10 +64,10 @@ const Calculator = ({ isOpen, onClose }: CalculatorModalProps) => {
     // Validate phone number
     const phoneValidation = validatePhone(formData.phone);
     if (!phoneValidation.isValid) {
-      toastFunction({
+      toast({
         title: "Ошибка",
         description: "Пожалуйста, введите корректный номер телефона",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
@@ -66,50 +75,51 @@ const Calculator = ({ isOpen, onClose }: CalculatorModalProps) => {
     // Validate volume
     const volumeValidation = validateNumeric(formData.volume, 0.1, 1000);
     if (!volumeValidation.isValid) {
-      toastFunction({
+      toast({
         title: "Ошибка",
         description: "Пожалуйста, введите корректный объём (от 0.1 до 1000 м³)",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
 
     try {
-      const response = await fetch('/api/send-calculator-request', {
-        method: 'POST',
+      const response = await fetch("/api/send-calculator-request", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
 
-      console.log('Response status:', response.status);
-      console.log('Response OK:', response.ok);
       if (!response.ok) {
         const errorText = await response.text();
-        console.error('Server error response:', errorText);
-        throw new Error(`Failed to send request: ${response.status} ${response.statusText} - ${errorText}`);
+        console.error("Server error response:", errorText);
+        throw new Error(
+          `Failed to send request: ${response.status} ${response.statusText} - ${errorText}`
+        );
       }
-      
-      // toastFunction({ // Временно закомментировано для отладки
-      //   title: "Заявка отправлена!",
-      //   description: "Мы свяжемся с вами в течение 15 минут для уточнения деталей заказа.",
-      // });
-      if (onClose && typeof onClose === 'function') {
+
+      toast({
+        title: "Заявка отправлена!",
+        description: "Мы свяжемся с вами для уточнения деталей заказа.",
+      });
+      if (onClose && typeof onClose === "function") {
         onClose();
       }
       setFormData({
-        material: '',
-        volume: '',
-        address: '',
-        phone: ''
+        material: "",
+        volume: "",
+        address: "",
+        phone: "",
       });
     } catch (error) {
-      console.error('Error submitting form:', error);
-      toastFunction({
+      console.error("Error submitting form:", error);
+      toast({
         title: "Ошибка отправки",
-        description: "Не удалось отправить заявку. Пожалуйста, попробуйте еще раз.",
-        variant: "destructive"
+        description:
+          "Не удалось отправить заявку. Пожалуйста, попробуйте еще раз.",
+        variant: "destructive",
       });
     }
   };
