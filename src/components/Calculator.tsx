@@ -16,9 +16,7 @@ interface CalculatorModalProps {
 }
 
 const Calculator = ({ isOpen, onClose }: CalculatorModalProps) => {
-  const { toast } = useToast();
-  console.log('Тип toast:', typeof toast);
-  console.log('Значение toast:', toast);
+  const toastFunction = useToast().toast;
   const [formData, setFormData] = useState({
     material: '',
     volume: '',
@@ -46,7 +44,7 @@ const Calculator = ({ isOpen, onClose }: CalculatorModalProps) => {
 
     // Validate required fields
     if (!formData.material || !formData.volume || !formData.address || !formData.phone) {
-      toast({
+      toastFunction({
         title: "Ошибка",
         description: "Пожалуйста, заполните все обязательные поля",
         variant: "destructive"
@@ -57,7 +55,7 @@ const Calculator = ({ isOpen, onClose }: CalculatorModalProps) => {
     // Validate phone number
     const phoneValidation = validatePhone(formData.phone);
     if (!phoneValidation.isValid) {
-      toast({
+      toastFunction({
         title: "Ошибка",
         description: "Пожалуйста, введите корректный номер телефона",
         variant: "destructive"
@@ -68,7 +66,7 @@ const Calculator = ({ isOpen, onClose }: CalculatorModalProps) => {
     // Validate volume
     const volumeValidation = validateNumeric(formData.volume, 0.1, 1000);
     if (!volumeValidation.isValid) {
-      toast({
+      toastFunction({
         title: "Ошибка",
         description: "Пожалуйста, введите корректный объём (от 0.1 до 1000 м³)",
         variant: "destructive"
@@ -86,7 +84,7 @@ const Calculator = ({ isOpen, onClose }: CalculatorModalProps) => {
       });
 
       if (response.ok) {
-        toast({
+        toastFunction({
           title: "Заявка отправлена!",
           description: "Мы свяжемся с вами в течение 15 минут для уточнения деталей заказа.",
         });
@@ -102,7 +100,7 @@ const Calculator = ({ isOpen, onClose }: CalculatorModalProps) => {
       }
     } catch (error) {
       console.error('Error submitting form:', error);
-      toast({
+      toastFunction({
         title: "Ошибка отправки",
         description: "Не удалось отправить заявку. Пожалуйста, попробуйте еще раз.",
         variant: "destructive"
