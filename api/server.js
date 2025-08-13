@@ -29,6 +29,7 @@ const transporter = nodemailer.createTransport({
 });
 
 app.post('/api/send-call-request', (req, res) => {
+  console.log('Received call request:', req.body);
   const { name, phone, preferredTime, question } = req.body;
 
   const mailOptions = {
@@ -58,6 +59,7 @@ app.post('/api/send-call-request', (req, res) => {
 });
 
 app.post('/api/send-calculator-request', (req, res) => {
+  console.log('Received calculator request:', req.body);
   const { phone, material, volume, address } = req.body;
 
   const mailOptions = {
