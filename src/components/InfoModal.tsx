@@ -14,15 +14,19 @@ const InfoModal = ({ isOpen, onClose, title, content }: InfoModalProps) => {
       <div>
         <h3 className="font-bold text-base mb-3">1. Общие положения</h3>
         <p className="text-muted-foreground">
-          Настоящая Политика конфиденциальности определяет порядок обработки персональных данных 
-          пользователей сайта компании "Песок и Бетон". Используя наш сайт, вы соглашаетесь с условиями 
-          данной политики.
+          Настоящая Политика конфиденциальности определяет порядок обработки
+          персональных данных пользователей сайта компании "Песок и Бетон".
+          Используя наш сайт, вы соглашаетесь с условиями данной политики.
         </p>
       </div>
 
       <div>
-        <h3 className="font-bold text-base mb-3">2. Сбор персональных данных</h3>
-        <p className="text-muted-foreground mb-2">Мы можем собирать следующую информацию:</p>
+        <h3 className="font-bold text-base mb-3">
+          2. Сбор персональных данных
+        </h3>
+        <p className="text-muted-foreground mb-2">
+          Мы можем собирать следующую информацию:
+        </p>
         <ul className="list-disc list-inside text-muted-foreground space-y-1">
           <li>Имя и фамилия</li>
           <li>Контактный номер телефона</li>
@@ -34,7 +38,9 @@ const InfoModal = ({ isOpen, onClose, title, content }: InfoModalProps) => {
 
       <div>
         <h3 className="font-bold text-base mb-3">3. Использование данных</h3>
-        <p className="text-muted-foreground mb-2">Собранная информация используется для:</p>
+        <p className="text-muted-foreground mb-2">
+          Собранная информация используется для:
+        </p>
         <ul className="list-disc list-inside text-muted-foreground space-y-1">
           <li>Обработки заказов и предоставления услуг</li>
           <li>Связи с клиентами по вопросам заказов</li>
@@ -46,15 +52,16 @@ const InfoModal = ({ isOpen, onClose, title, content }: InfoModalProps) => {
       <div>
         <h3 className="font-bold text-base mb-3">4. Защита данных</h3>
         <p className="text-muted-foreground">
-          Мы принимаем все необходимые меры для защиты ваших персональных данных от 
-          несанкционированного доступа, изменения, раскрытия или уничтожения.
+          Мы принимаем все необходимые меры для защиты ваших персональных данных
+          от несанкционированного доступа, изменения, раскрытия или уничтожения.
         </p>
       </div>
 
       <div>
         <h3 className="font-bold text-base mb-3">5. Контакты</h3>
         <p className="text-muted-foreground">
-          По вопросам обработки персональных данных обращайтесь по адресу: info@pesok-beton.ru
+          По вопросам обработки персональных данных обращайтесь по адресу:
+          pesokbeton22@mail.ru
         </p>
       </div>
     </div>
