@@ -217,7 +217,7 @@ const Calculator = ({ isOpen, onClose }: CalculatorModalProps) => {
                 )}
 
                 <Button type="submit" className="submit-button">
-                  Рассчитать и оформить заказ
+                  Оформить заказ
                 </Button>
               </form>
 

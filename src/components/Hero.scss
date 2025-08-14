@@ -9,7 +9,9 @@
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-  
+  @media (max-width: 768px) {
+    padding-top: 90px;
+  }
   .hero__content {
     max-width: 1200px;
     margin: 0 auto;
@@ -17,41 +19,41 @@
     text-align: center;
     position: relative;
     z-index: 10;
-    
+
     .hero__text {
       max-width: 1200px;
       margin: 0 auto;
       animation: fadeIn 0.6s ease-out;
-      
+
       h1 {
         font-size: 60px;
         font-family: var(--font-heading);
         font-weight: bold;
         margin-bottom: 24px;
         line-height: 1.25;
-        
+
         @media (max-width: 768px) {
           font-size: 36px;
         }
-        
+
         .text-nature-beige {
           display: block;
           color: var(--beige);
         }
       }
-      
+
       p {
         font-size: 24px;
         margin-bottom: 32px;
         color: rgba(255, 255, 255, 0.9);
         font-weight: 500;
-        
+
         @media (max-width: 768px) {
           font-size: 20px;
         }
       }
     }
-    
+
     .hero__buttons {
       display: flex;
       flex-direction: column;
@@ -59,11 +61,11 @@
       justify-content: center;
       align-items: center;
       margin-bottom: 48px;
-      
+
       @media (min-width: 640px) {
         flex-direction: row;
       }
-      
+
       .btn-primary {
         background: white;
         color: var(--primary-green);
@@ -77,18 +79,18 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        
+
         &:hover {
           background: rgba(255, 255, 255, 0.95);
           transform: translateY(-2px);
           box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
         }
-        
+
         &:active {
           transform: translateY(0);
         }
       }
-      
+
       .btn-outline {
         background: transparent;
         color: white;
@@ -101,43 +103,43 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        
+
         &:hover {
           background: rgba(255, 255, 255, 0.15);
           border-color: rgba(255, 255, 255, 0.8);
           transform: translateY(-1px);
         }
-        
+
         &:active {
           transform: translateY(0);
         }
       }
     }
-    
+
     .hero__features {
       display: grid;
       grid-template-columns: 1fr;
       gap: 24px;
       max-width: 900px;
       margin: 0 auto;
-      
+
       @media (min-width: 768px) {
         grid-template-columns: repeat(3, 1fr);
       }
-      
+
       .feature-card {
         background: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(4px);
         border-radius: 12px;
         padding: 20px;
         border: 1px solid rgba(255, 255, 255, 0.2);
-        
+
         h3 {
           font-weight: bold;
           font-size: 18px;
           margin-bottom: 4px;
         }
-        
+
         p {
           color: rgba(255, 255, 255, 0.8);
           font-size: 14px;
@@ -146,14 +148,14 @@
       }
     }
   }
-  
+
   .scroll-indicator {
     position: absolute;
     bottom: 32px;
     left: 50%;
     transform: translateX(-50%);
     animation: bounce 2s infinite;
-    
+
     .arrow-down {
       width: 24px;
       height: 24px;
