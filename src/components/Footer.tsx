@@ -27,23 +27,15 @@ const Footer = ({ onPrivacyClick, onTermsClick }: FooterProps) => {
               <div className="contact-item">
                 <Phone />
                 <div className="contact-details">
-                  <p>+7 (495) 123-45-67</p>
+                  <p>+7 (996) 457-77-08</p>
                   <p className="contact-subtitle">Основной номер</p>
-                </div>
-              </div>
-
-              <div className="contact-item">
-                <Phone />
-                <div className="contact-details">
-                  <p>+7 (905) 987-65-43</p>
-                  <p className="contact-subtitle">Диспетчерская</p>
                 </div>
               </div>
 
               <div className="contact-item">
                 <Mail />
                 <div className="contact-details">
-                  <p>info@pesok-beton.ru</p>
+                  <p>pesokbeton22@mail.ru</p>
                   <p className="contact-subtitle">Электронная почта</p>
                 </div>
               </div>
@@ -51,8 +43,10 @@ const Footer = ({ onPrivacyClick, onTermsClick }: FooterProps) => {
               <div className="contact-item contact-item--start">
                 <MapPin />
                 <div className="contact-details">
-                  <p>г. Москва</p>
-                  <p className="contact-subtitle">ул. Промышленная, д. 15, стр. 2</p>
+                  <p>г. Барнаул</p>
+                  <p className="contact-subtitle">
+                    Павловский тракт, д. 78, кв. 90
+                  </p>
                 </div>
               </div>
             </div>
@@ -60,7 +54,7 @@ const Footer = ({ onPrivacyClick, onTermsClick }: FooterProps) => {
 
           <div className="footer__section">
             <h3>Режим работы</h3>
-            
+
             <div className="working-hours">
               <div className="hours-item">
                 <Clock />
@@ -75,21 +69,24 @@ const Footer = ({ onPrivacyClick, onTermsClick }: FooterProps) => {
                 <Truck />
                 <div className="hours-details">
                   <p>Доставка</p>
-                  <p className="hours-subtitle">Круглосуточно</p>
+                  <p className="hours-subtitle">В рабочее время</p>
                   <p className="hours-subtitle">Без выходных</p>
                 </div>
               </div>
 
               <div className="emergency-box">
                 <h4>Экстренная доставка</h4>
-                <p>Срочные заказы принимаем 24/7. Доставка в течение 2-4 часов.</p>
+                <p>
+                  Принимаем заказы в рабочее время. Доставка в течение 2-4
+                  часов.
+                </p>
               </div>
             </div>
           </div>
 
           <div className="footer__section">
             <h3>Услуги</h3>
-            
+
             <ul className="services-list">
               <li>• Поставка сыпучих материалов</li>
               <li>• Доставка собственным автопарком</li>
@@ -101,7 +98,7 @@ const Footer = ({ onPrivacyClick, onTermsClick }: FooterProps) => {
 
             <div className="delivery-zone">
               <h4>Зона доставки</h4>
-              <p>Москва и Московская область. Доставка в другие регионы по договоренности.</p>
+              <p>Барнаул. Доставка в пригород по договоренности.</p>
             </div>
           </div>
         </div>
@@ -109,19 +106,19 @@ const Footer = ({ onPrivacyClick, onTermsClick }: FooterProps) => {
         <div className="footer__bottom">
           <div className="footer__bottom-content">
             <div className="copyright">
-              <p>&copy; 2024 Песок и Бетон. Все права защищены.</p>
+              <p>&copy; 2025 Песок и Бетон. Все права защищены.</p>
             </div>
-            
+
             <div className="footer__links">
-              <Button 
-                variant="link" 
+              <Button
+                variant="link"
                 onClick={onPrivacyClick}
                 className="footer-link"
               >
                 Политика конфиденциальности
               </Button>
-              <Button 
-                variant="link" 
+              <Button
+                variant="link"
                 onClick={onTermsClick}
                 className="footer-link"
               >
