@@ -1,7 +1,6 @@
-
-import React, { useState, useEffect } from 'react';
-import { X, Calculator as CalculatorIcon, Truck } from 'lucide-react';
-import './ProductModal.scss';
+import React, { useState, useEffect } from "react";
+import { X, Calculator as CalculatorIcon, Truck } from "lucide-react";
+import "./ProductModal.scss";
 
 interface Product {
   name: string;
@@ -18,34 +17,45 @@ interface ProductModalProps {
 }
 
 const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
-  const [volume, setVolume] = useState('');
-  const [address, setAddress] = useState('');
-  const [phone, setPhone] = useState('');
-  const [totalCost, setTotalCost] = useState(0);
+  const [formData, setFormData] = useState({
+    volume: "",
+    address: "",
+    phone: "",
+    totalCost: "",
+  });
 
   const calculateCost = React.useCallback(() => {
-    if (product && volume) {
-      const materialCost = product.price * parseFloat(volume);
-      setTotalCost(materialCost); // Теперь totalCost - это только стоимость материала
+    if (product && formData.volume) {
+      const parsedVolume = parseFloat(formData.volume);
+      const materialCost =
+        product.price * (isNaN(parsedVolume) ? 0 : parsedVolume);
+      setFormData((f) => ({
+        ...f,
+        totalCost: materialCost.toFixed(1),
+      }));
     } else {
-      setTotalCost(0); // Сброс totalCost, если нет продукта или объема
+      setFormData((f) => ({
+        ...f,
+        totalCost: "0.0",
+      }));
     }
-  }, [product, volume]);
+  }, [product, formData.volume]);
 
   // Block body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
-      const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
-      document.body.style.overflow = 'hidden';
+      const scrollBarWidth =
+        window.innerWidth - document.documentElement.clientWidth;
+      document.body.style.overflow = "hidden";
       document.body.style.paddingRight = `${scrollBarWidth}px`;
     } else {
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
     }
 
     return () => {
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
+      document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
     };
   }, [isOpen]);
 
@@ -56,25 +66,63 @@ const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
 
   if (!isOpen || !product) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
+    const { volume, address, phone, totalCost } = formData;
+
     if (!volume || !address || !phone) {
-      alert('Пожалуйста, заполните все поля');
+      alert("Пожалуйста, заполните все поля");
       return;
     }
+    try {
+      const response = await fetch("/api/send-product-request", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          product: {
+            name: product.name,
+            price: product.price,
+          },
+        }),
+      });
 
-    alert('Заявка отправлена! Мы свяжемся с вами в ближайшее время.');
-    console.log({ product: product.name, volume, address, phone, totalCost });
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Server error response:", errorText);
+        throw new Error(
+          `Failed to send request: ${response.status} ${response.statusText} - ${errorText}`
+        );
+      }
+      alert("Заявка отправлена! Мы свяжемся с вами в ближайшее время.");
+      if (onClose && typeof onClose === "function") {
+        onClose();
+      }
+      setFormData({
+        volume: "",
+        address: "",
+        phone: "",
+        totalCost: "",
+      });
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("Не удалось отправить заявку. Пожалуйста, попробуйте еще раз.");
+    }
   };
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content product-modal" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="modal-content product-modal"
+        onClick={(e) => e.stopPropagation()}
+      >
         <button className="modal-close" onClick={onClose}>
           <X size={24} />
         </button>
-        
+
         <div className="product-modal__header">
           <div className="product-modal__image">
             <img src={product.image} alt={product.name} />
@@ -110,8 +158,10 @@ const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
               type="number"
               className="form-input"
               placeholder="Введите объём в м³"
-              value={volume}
-              onChange={(e) => setVolume(e.target.value)}
+              value={formData.volume}
+              onChange={(e) =>
+                setFormData({ ...formData, volume: e.target.value })
+              }
               min="1"
               step="0.5"
               required
@@ -124,8 +174,10 @@ const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
               id="address"
               className="form-textarea"
               placeholder="Укажите полный адрес доставки"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
+              value={formData.address}
+              onChange={(e) =>
+                setFormData({ ...formData, address: e.target.value })
+              }
               required
             />
           </div>
@@ -137,25 +189,27 @@ const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) => {
               type="tel"
               className="form-input"
               placeholder="+7 (___) ___-__-__"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              value={formData.phone}
+              onChange={(e) =>
+                setFormData({ ...formData, phone: e.target.value })
+              }
               required
             />
           </div>
 
-          {totalCost > 0 && (
+          {parseFloat(formData.totalCost) > 0 && (
             <div className="cost-summary">
               <div className="cost-row">
                 <span>Стоимость материала:</span>
-                <span>{(product.price * parseFloat(volume || '0')).toLocaleString()} ₽</span>
+                <span>{formData.totalCost} ₽</span>
               </div>
-               <div className="cost-row">
+              <div className="cost-row">
                 <span>Стоимость доставки:</span>
                 <span>Рассчитаем стоимость доставки и сообщим вам</span>
               </div>
               <div className="cost-total">
                 <span>Итого к оплате:</span>
-                <span>{totalCost.toLocaleString()} ₽ + стоимость доставки</span>
+                <span>{formData.totalCost} ₽ + стоимость доставки</span>
               </div>
             </div>
           )}

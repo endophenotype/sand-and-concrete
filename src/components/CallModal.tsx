@@ -49,7 +49,7 @@ const CallModal = ({ isOpen, onClose }: CallModalProps) => {
       });
 
       if (response.ok) {
-        alert("Заявка отправлена! Мы перезвоним вам в течение 15 минут");
+        alert("Заявка отправлена! Мы перезвоним вам");
         onClose();
         setFormData({
           name: "",
@@ -79,7 +79,7 @@ const CallModal = ({ isOpen, onClose }: CallModalProps) => {
             Заказать звонок
           </DialogTitle>
           <DialogDescription className="text-center text-muted-foreground mt-2">
-            Оставьте ваши контакты и мы перезвоним в течение 15 минут
+            Оставьте ваши контакты и мы перезвоним вам
           </DialogDescription>
         </DialogHeader>
 

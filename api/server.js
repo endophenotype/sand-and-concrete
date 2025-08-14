@@ -61,6 +61,53 @@ app.post("/api/send-call-request", (req, res) => {
   });
 });
 
+app.post("/api/send-product-request", (req, res) => {
+  console.log("Received calculator request:", req.body);
+  const { volume, address, phone, totalCost, product } = req.body;
+
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: "tima.golubev@mail.ru",
+    subject: "Новая заявка на товар",
+    html: `
+      <h2>Новая заявка на товар</h2>
+            ${
+              product
+                ? `
+      <hr />
+      <h3>Выбранный продукт:</h3>
+      <p><strong>Название:</strong> ${product.name}</p>
+      <p><strong>Цена:</strong> ${product.price} ₽/м³</p>
+      `
+                : ""
+            }
+      <p><strong>Телефон:</strong> ${phone}</p>
+      <p><strong>Объём:</strong> ${volume} м³</p>
+      <p><strong>Адрес доставки:</strong> ${address}</p>
+      <p><strong>Итоговая стоимость:</strong> ${totalCost}</p>
+
+    `,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error("Error sending email (send-calculator-request):", error);
+      if (error.response) {
+        console.error(
+          "Nodemailer response (send-calculator-request):",
+          error.response
+        );
+      }
+      return res.status(500).send({
+        message: "Error sending email",
+        error: error.message,
+        details: error.response,
+      });
+    }
+    console.log("Email sent:", info.response);
+    res.status(200).send({ message: "Email sent successfully" });
+  });
+});
 app.post("/api/send-calculator-request", (req, res) => {
   console.log("Received calculator request:", req.body);
   const { phone, material, volume, address } = req.body;
