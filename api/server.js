@@ -31,7 +31,7 @@ app.post("/api/send-call-request", (req, res) => {
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: "tima.golubev@mail.ru",
+    to: "pesokbeton22@mail.ru",
     subject: "Новая заявка на звонок",
     html: `
       <h2>Новая заявка на обратный звонок</h2>
@@ -67,7 +67,7 @@ app.post("/api/send-product-request", (req, res) => {
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: "tima.golubev@mail.ru",
+    to: "pesokbeton22@mail.ru",
     subject: "Новая заявка на товар",
     html: `
       <h2>Новая заявка на товар</h2>
@@ -108,13 +108,14 @@ app.post("/api/send-product-request", (req, res) => {
     res.status(200).send({ message: "Email sent successfully" });
   });
 });
+
 app.post("/api/send-calculator-request", (req, res) => {
   console.log("Received calculator request:", req.body);
   const { phone, material, volume, address } = req.body;
 
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: "tima.golubev@mail.ru",
+    to: "pesokbeton22@mail.ru",
     subject: "Новая заявка на расчёт стоимости",
     html: `
       <h2>Новая заявка на расчёт стоимости</h2>
@@ -134,13 +135,11 @@ app.post("/api/send-calculator-request", (req, res) => {
           error.response
         );
       }
-      return res
-        .status(500)
-        .send({
-          message: "Error sending email",
-          error: error.message,
-          details: error.response,
-        });
+      return res.status(500).send({
+        message: "Error sending email",
+        error: error.message,
+        details: error.response,
+      });
     }
     console.log("Email sent:", info.response);
     res.status(200).send({ message: "Email sent successfully" });

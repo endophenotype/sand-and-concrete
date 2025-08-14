@@ -4,7 +4,7 @@
 
 **URL**: [https://sand-and-concrete.vercel.app/](https://sand-and-concrete.vercel.app/)
 
-Spetstech22 is a modern platform for the supply of high—quality bulk materials with delivery in Barnaul and the surrounding area. We specialize in providing a wide range of building materials, including sand, crushed stone, gravel, marble chips, expanded clay and soil.
+Sand-and-concrete is a modern platform for the supply of high—quality bulk materials with delivery in Barnaul and the surrounding area. We specialize in providing a wide range of building materials, including sand, crushed stone, gravel, marble chips, expanded clay and soil.
 
 ## Main features
 Catalog of materials: Detailed information about each product with options and prices.
