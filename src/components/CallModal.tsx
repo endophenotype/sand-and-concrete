@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Phone } from "lucide-react";
+import InfoModal from "./InfoModal";
 interface CallModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -23,6 +24,9 @@ const CallModal = ({ isOpen, onClose }: CallModalProps) => {
     phone: "",
     message: "",
   });
+
+  // Состояние для модального окна политики
+  const [privacyOpen, setPrivacyOpen] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -147,12 +151,23 @@ const CallModal = ({ isOpen, onClose }: CallModalProps) => {
 
           <p className="text-xs text-muted-foreground text-center">
             Нажимая кнопку, вы соглашаетесь с{" "}
-            <button type="button" className="text-nature-green hover:underline">
+            <button
+              type="button"
+              className="text-nature-green hover:underline"
+              onClick={() => setPrivacyOpen(true)}
+            >
               политикой конфиденциальности
             </button>
           </p>
         </form>
       </DialogContent>
+      {/* Модальное окно политики конфиденциальности */}
+      <InfoModal
+        isOpen={privacyOpen}
+        onClose={() => setPrivacyOpen(false)}
+        title="Политика конфиденциальности"
+        content="privacy"
+      />
     </Dialog>
   );
 };

@@ -1,13 +1,23 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { validatePhone, validateNumeric, sanitizeTextInput } from '../lib/validation';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
-import { Calculator as CalculatorIcon, Truck } from 'lucide-react';
-import './Calculator.scss';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  validatePhone,
+  validateNumeric,
+  sanitizeTextInput,
+} from "../lib/validation";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import { Calculator as CalculatorIcon, Truck } from "lucide-react";
+import "./Calculator.scss";
 
 interface CalculatorModalProps {
   isOpen: boolean;
@@ -32,6 +42,7 @@ const Calculator = ({ isOpen, onClose }: CalculatorModalProps) => {
   ];
 
   const selectedMaterial = materials.find((m) => m.value === formData.material);
+  const materialLabel = selectedMaterial ? selectedMaterial.label : "";
   const materialCost =
     selectedMaterial && formData.volume
       ? selectedMaterial.price * parseFloat(formData.volume)
@@ -75,7 +86,7 @@ const Calculator = ({ isOpen, onClose }: CalculatorModalProps) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, material: materialLabel }),
       });
 
       if (!response.ok) {
@@ -86,7 +97,9 @@ const Calculator = ({ isOpen, onClose }: CalculatorModalProps) => {
         );
       }
 
-      alert("Заявка отправлена! Мы свяжемся с вами для уточнения деталей заказа.");
+      alert(
+        "Заявка отправлена! Мы свяжемся с вами для уточнения деталей заказа."
+      );
       if (onClose && typeof onClose === "function") {
         onClose();
       }
@@ -112,18 +125,19 @@ const Calculator = ({ isOpen, onClose }: CalculatorModalProps) => {
                 <CalculatorIcon />
                 Калькулятор стоимости
               </CardTitle>
-              <p>
-                Рассчитайте стоимость материалов с доставкой
-              </p>
+              <p>Рассчитайте стоимость материалов</p>
             </CardHeader>
-            
+
             <CardContent className="calculator__content">
               <form onSubmit={handleSubmit} className="calculator__form">
                 <div className="form-field">
-                  <Label htmlFor="material">
-                    Выберите материал
-                  </Label>
-                  <Select value={formData.material} onValueChange={(value) => setFormData({...formData, material: value})}>
+                  <Label htmlFor="material">Выберите материал</Label>
+                  <Select
+                    value={formData.material}
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, material: value })
+                    }
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Выберите материал" />
                     </SelectTrigger>
@@ -138,55 +152,62 @@ const Calculator = ({ isOpen, onClose }: CalculatorModalProps) => {
                 </div>
 
                 <div className="form-field">
-                  <Label htmlFor="volume">
-                    Объём (м³)
-                  </Label>
+                  <Label htmlFor="volume">Объём (м³)</Label>
                   <Input
                     id="volume"
                     type="number"
                     placeholder="Введите объём в м³"
                     value={formData.volume}
-                    onChange={(e) => setFormData({...formData, volume: e.target.value})}
+                    onChange={(e) =>
+                      setFormData({ ...formData, volume: e.target.value })
+                    }
                     min="1"
                     step="0.5"
                   />
                 </div>
 
                 <div className="form-field">
-                  <Label htmlFor="address">
-                    Адрес доставки
-                  </Label>
+                  <Label htmlFor="address">Адрес доставки</Label>
                   <Textarea
                     id="address"
                     placeholder="Укажите полный адрес доставки"
                     value={formData.address}
-                    onChange={(e) => setFormData({...formData, address: sanitizeTextInput(e.target.value)})}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        address: sanitizeTextInput(e.target.value),
+                      })
+                    }
                     className="textarea"
                   />
                 </div>
 
                 <div className="form-field">
-                  <Label htmlFor="phone">
-                    Номер телефона
-                  </Label>
+                  <Label htmlFor="phone">Номер телефона</Label>
                   <Input
                     id="phone"
                     type="tel"
                     placeholder="+7 (___) ___-__-__"
                     value={formData.phone}
-                    onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                    onChange={(e) =>
+                      setFormData({ ...formData, phone: e.target.value })
+                    }
                   />
                 </div>
 
-                {(selectedMaterial && formData.volume) && (
+                {selectedMaterial && formData.volume && (
                   <div className="cost-summary">
                     <div className="cost-row">
                       <span className="cost-label">Стоимость материала:</span>
-                      <span className="font-medium">{materialCost.toLocaleString()} ₽</span>
+                      <span className="font-medium">
+                        {materialCost.toLocaleString()} ₽
+                      </span>
                     </div>
                     <div className="cost-row">
                       <span className="cost-label">Стоимость доставки:</span>
-                      <span className="cost-value">Рассчитаем стоимость доставки и сообщим вам</span>
+                      <span className="cost-value">
+                        Рассчитаем стоимость доставки и сообщим вам
+                      </span>
                     </div>
                     <div className="cost-row total">
                       <span className="cost-label">Итого к оплате:</span>
@@ -195,10 +216,7 @@ const Calculator = ({ isOpen, onClose }: CalculatorModalProps) => {
                   </div>
                 )}
 
-                <Button 
-                  type="submit" 
-                  className="submit-button"
-                >
+                <Button type="submit" className="submit-button">
                   Рассчитать и оформить заказ
                 </Button>
               </form>
