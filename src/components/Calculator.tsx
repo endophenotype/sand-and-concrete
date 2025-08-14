@@ -7,7 +7,6 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Calculator as CalculatorIcon, Truck } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
 import './Calculator.scss';
 
 interface CalculatorModalProps {
@@ -16,7 +15,6 @@ interface CalculatorModalProps {
 }
 
 const Calculator = ({ isOpen, onClose }: CalculatorModalProps) => {
-  const { toast } = useToast();
   const [formData, setFormData] = useState({
     material: "",
     volume: "",
@@ -53,33 +51,21 @@ const Calculator = ({ isOpen, onClose }: CalculatorModalProps) => {
       !formData.address ||
       !formData.phone
     ) {
-      toast({
-        title: "Ошибка",
-        description: "Пожалуйста, заполните все обязательные поля",
-        variant: "destructive",
-      });
+      alert("Пожалуйста, заполните все обязательные поля");
       return;
     }
 
     // Validate phone number
     const phoneValidation = validatePhone(formData.phone);
     if (!phoneValidation.isValid) {
-      toast({
-        title: "Ошибка",
-        description: "Пожалуйста, введите корректный номер телефона",
-        variant: "destructive",
-      });
+      alert("Пожалуйста, введите корректный номер телефона");
       return;
     }
 
     // Validate volume
     const volumeValidation = validateNumeric(formData.volume, 0.1, 1000);
     if (!volumeValidation.isValid) {
-      toast({
-        title: "Ошибка",
-        description: "Пожалуйста, введите корректный объём (от 0.1 до 1000 м³)",
-        variant: "destructive",
-      });
+      alert("Пожалуйста, введите корректный объём (от 0.1 до 1000 м³)");
       return;
     }
 
@@ -100,10 +86,7 @@ const Calculator = ({ isOpen, onClose }: CalculatorModalProps) => {
         );
       }
 
-      toast({
-        title: "Заявка отправлена!",
-        description: "Мы свяжемся с вами для уточнения деталей заказа.",
-      });
+      alert("Заявка отправлена! Мы свяжемся с вами для уточнения деталей заказа.");
       if (onClose && typeof onClose === "function") {
         onClose();
       }
@@ -115,12 +98,7 @@ const Calculator = ({ isOpen, onClose }: CalculatorModalProps) => {
       });
     } catch (error) {
       console.error("Error submitting form:", error);
-      toast({
-        title: "Ошибка отправки",
-        description:
-          "Не удалось отправить заявку. Пожалуйста, попробуйте еще раз.",
-        variant: "destructive",
-      });
+      alert("Не удалось отправить заявку. Пожалуйста, попробуйте еще раз.");
     }
   };
 

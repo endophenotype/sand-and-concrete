@@ -47,7 +47,12 @@ const Index = () => {
       <Hero onCalculateClick={handleCalculateClick} />
       <About />
       <Products />
-      {showCalculator && <Calculator />}
+      {showCalculator && (
+        <Calculator
+          isOpen={showCalculator}
+          onClose={() => setShowCalculator(false)}
+        />
+      )}
       <Reviews />
       <Footer onPrivacyClick={handlePrivacyClick} onTermsClick={handleTermsClick} />
       

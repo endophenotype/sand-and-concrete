@@ -12,15 +12,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Phone } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-
 interface CallModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
 const CallModal = ({ isOpen, onClose }: CallModalProps) => {
-  const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -31,22 +28,14 @@ const CallModal = ({ isOpen, onClose }: CallModalProps) => {
     e.preventDefault();
 
     if (!formData.name || !formData.phone) {
-      toast({
-        title: "Ошибка",
-        description: "Пожалуйста, заполните обязательные поля",
-        variant: "destructive",
-      });
+      alert("Пожалуйста, заполните обязательные поля");
       return;
     }
 
     // Validate phone number
     const phoneValidation = validatePhone(formData.phone);
     if (!phoneValidation.isValid) {
-      toast({
-        title: "Ошибка",
-        description: "Пожалуйста, введите корректный номер телефона",
-        variant: "destructive",
-      });
+      alert("Пожалуйста, введите корректный номер телефона");
       return;
     }
 
@@ -60,10 +49,7 @@ const CallModal = ({ isOpen, onClose }: CallModalProps) => {
       });
 
       if (response.ok) {
-        toast({
-          title: "Заявка отправлена!",
-          description: "Мы перезвоним вам в течение 15 минут",
-        });
+        alert("Заявка отправлена! Мы перезвоним вам в течение 15 минут");
         onClose();
         setFormData({
           name: "",
@@ -75,12 +61,7 @@ const CallModal = ({ isOpen, onClose }: CallModalProps) => {
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      toast({
-        title: "Ошибка отправки",
-        description:
-          "Не удалось отправить заявку. Пожалуйста, попробуйте еще раз.",
-        variant: "destructive",
-      });
+      alert("Не удалось отправить заявку. Пожалуйста, попробуйте еще раз.");
     }
   };
 
