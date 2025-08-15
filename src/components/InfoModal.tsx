@@ -82,7 +82,7 @@ const InfoModal = ({ isOpen, onClose, title, content }: InfoModalProps) => {
         </h3>
         <ul className="list-disc list-inside text-muted-foreground space-y-1">
           <li>Заказ оформляется через сайт или по телефону</li>
-          <li>Наш менеджер перезвонит вам для подтверждение заказа</li>
+          <li>Наш менеджер перезвонит вам для подтверждения заказа</li>
           <li>Доставка осуществляется в согласованное время</li>
           <li>Оплата производится наличными или безналичным расчетом</li>
         </ul>
