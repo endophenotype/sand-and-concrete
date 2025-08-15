@@ -45,7 +45,6 @@ const InfoModal = ({ isOpen, onClose, title, content }: InfoModalProps) => {
           <li>Обработки заказов и предоставления услуг</li>
           <li>Связи с клиентами по вопросам заказов</li>
           <li>Улучшения качества обслуживания</li>
-          <li>Информирования о новых услугах (при согласии)</li>
         </ul>
       </div>
 
@@ -83,7 +82,7 @@ const InfoModal = ({ isOpen, onClose, title, content }: InfoModalProps) => {
         </h3>
         <ul className="list-disc list-inside text-muted-foreground space-y-1">
           <li>Заказ оформляется через сайт или по телефону</li>
-          <li>Подтверждение заказа происходит в течение 30 минут</li>
+          <li>Наш менеджер перезвонит вам для подтверждение заказа</li>
           <li>Доставка осуществляется в согласованное время</li>
           <li>Оплата производится наличными или безналичным расчетом</li>
         </ul>
@@ -93,7 +92,6 @@ const InfoModal = ({ isOpen, onClose, title, content }: InfoModalProps) => {
         <h3 className="font-bold text-base mb-3">3. Стоимость и оплата</h3>
         <ul className="list-disc list-inside text-muted-foreground space-y-1">
           <li>Цены указаны на сайте и могут изменяться</li>
-          <li>Стоимость доставки составляет 2000 рублей по области</li>
           <li>Возможна оплата наличными при получении</li>
           <li>Для юридических лиц предусмотрен безналичный расчет</li>
         </ul>
@@ -102,8 +100,8 @@ const InfoModal = ({ isOpen, onClose, title, content }: InfoModalProps) => {
       <div>
         <h3 className="font-bold text-base mb-3">4. Гарантии качества</h3>
         <p className="text-muted-foreground">
-          Все материалы соответствуют ГОСТ и имеют сертификаты качества. При
-          обнаружении несоответствия качества материал подлежит замене.
+          Все материалы соответствуют ГОСТ. При обнаружении несоответствия
+          качества материал подлежит замене.
         </p>
       </div>
 
